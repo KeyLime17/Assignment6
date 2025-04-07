@@ -12,15 +12,10 @@ use Illuminate\Mail\Mailables\Address;
 
 class Newsletter extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
-
-    public $subscriber;
-    public $tickerdata;
     
-    public function __construct($subscriber, $tickerdata)
+    public function __construct($data)
     {
-        $this->subscriber = $subscriber;
-        $this->tickerdata = $tickerdata;
+        $this->TPL = $data;
     }
 
     /**
@@ -30,7 +25,7 @@ class Newsletter extends Mailable implements ShouldQueue
     {
         return new Envelope(
             subject: 'Crypto Newsletter',
-            from: new Address("milton@mohawkcollege.ca", "Milton Waddams")
+            from: new Address("newsletter@mohawkcollege.ca", "Do Not Reply")
         );
     }
 
@@ -41,6 +36,7 @@ class Newsletter extends Mailable implements ShouldQueue
     {
         return new Content(
             view: 'newsletter',
+            with: $this->TPL
         );
     }
 
