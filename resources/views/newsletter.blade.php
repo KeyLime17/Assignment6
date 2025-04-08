@@ -58,12 +58,5 @@
         </a>
     </p>
 
-    <br />
-    <h2>All Tickers</h2>
-    <ul>
-        @foreach ($alltickers as $ticker)
-            <li>{{ $ticker['symbol'] }}</li>
-        @endforeach
-    </ul>
 </body>
 </html>
