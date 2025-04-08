@@ -9,10 +9,10 @@
         .down {
             color: red;
         }
-        table, tr, th {
+        table, th, td {
             border: 1px solid black;
         }
-        td, th {
+        th, td {
             padding: 10px;
         }
         table {
@@ -24,28 +24,32 @@
     <h1>Crypto Newsletter</h1>
     <p>Here is your cryptocurrency newsletter with the latest crypto prices:</p>
 
+    <!-- Table for coin data -->
     <table>
-        <tr>
-            <th>Symbol</th>
-            <td>{{ $symbol }}</td>
-        </tr>
-        <tr>
-            <th>Price (USD)</th>
-            <td>{{ $price_usd }}</td>
-        </tr>
-        <tr>
-            <th>Percent Change (24h)</th>
-            <td @class(['up' => $percent_change_24h > 0, 'down' => $percent_change_24h < 0])>
-                {{ $percent_change_24h }}
-            </td>
-        </tr>
-        <tr>
-            <th>Percent Change (1h)</th>
-            <td @class(['up' => $percent_change_1h > 0, 'down' => $percent_change_1h < 0])>
-                {{ $percent_change_1h }}
-            </td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Price (USD)</th>
+                <th>Percent Change (24h)</th>
+                <th>Percent Change (1h)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($coins as $coin)
+                <tr>
+                    <td>{{ $coin['symbol'] }}</td>
+                    <td>{{ $coin['price_usd'] }}</td>
+                    <td @class(['up' => $coin['percent_change_24h'] > 0, 'down' => $coin['percent_change_24h'] < 0])>
+                        {{ $coin['percent_change_24h'] }}
+                    </td>
+                    <td @class(['up' => $coin['percent_change_1h'] > 0, 'down' => $coin['percent_change_1h'] < 0])>
+                        {{ $coin['percent_change_1h'] }}
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
     </table>
+
     <br />
     <h2>All Tickers</h2>
     <ul>
