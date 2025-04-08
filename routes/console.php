@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
 use App\Models\Subscriber;
 
-// Define a common mapping from ticker keys to Coinlore IDs.
 $tickerMap = [
     'btc'  => 90,
     'eth'  => 80,
@@ -23,13 +22,11 @@ $tickerMap = [
     'dot'  => 6636,
 ];
 
-// -----------------------------------------------------------------------------
-// For subscribers who want the newsletter every minute:
+#minutely
 Schedule::call(function () use ($tickerMap) {
     $subscribers = Subscriber::where('frequency', 'every_minute')->get();
     
     foreach ($subscribers as $subscriber) {
-        // Build a list of Coinlore IDs for the currencies the subscriber selected.
         $selectedIds = [];
         foreach ($tickerMap as $ticker => $coinId) {
             if ($subscriber->$ticker) {
@@ -37,29 +34,24 @@ Schedule::call(function () use ($tickerMap) {
             }
         }
         
-        // If no currencies were selected, skip this subscriber.
         if (empty($selectedIds)) {
             continue;
         }
         
         $ids = implode(',', $selectedIds);
         
-        // Fetch the coin data for the selected currencies.
         $response = Http::get("https://api.coinlore.net/api/ticker/?id={$ids}");
         $coinData = $response->json();
         
-        // Optionally fetch a full list of all tickers (if needed in the email)
         $allTickersResponse = Http::get('https://api.coinlore.net/api/tickers/');
         $allTickersData = $allTickersResponse->json()['data'];
         
-        // Build the data array to pass to the Newsletter mailable.
         $data = [
             'subscriber' => $subscriber,
             'coins'      => $coinData,
             'alltickers' => $allTickersData,
         ];
         
-        // Pass individual ticker booleans if the view needs them.
         foreach ($tickerMap as $ticker => $coinId) {
             $data[$ticker] = $subscriber->$ticker;
         }
@@ -68,8 +60,7 @@ Schedule::call(function () use ($tickerMap) {
     }
 })->everyMinute();
 
-// -----------------------------------------------------------------------------
-// For subscribers who want the newsletter hourly:
+//hourly
 Schedule::call(function () use ($tickerMap) {
     $subscribers = Subscriber::where('frequency', 'hourly')->get();
     
@@ -106,8 +97,7 @@ Schedule::call(function () use ($tickerMap) {
     }
 })->hourly();
 
-// -----------------------------------------------------------------------------
-// For subscribers who want the newsletter daily at midnight:
+//midnight
 Schedule::call(function () use ($tickerMap) {
     $subscribers = Subscriber::where('frequency', 'daily')->get();
     
@@ -145,7 +135,6 @@ Schedule::call(function () use ($tickerMap) {
 })->dailyAt('00:00');
 
 
-// An example Artisan command (unchanged)
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
