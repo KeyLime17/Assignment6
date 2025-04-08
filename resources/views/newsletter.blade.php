@@ -51,6 +51,14 @@
     </table>
 
     <br />
+    
+    <p>If you no longer wish to receive this newsletter, 
+        <a href="{{ route('unsubscribe', ['email' => urlencode($subscriber->email)]) }}">
+            click here to unsubscribe.
+        </a>
+    </p>
+
+    <br />
     <h2>All Tickers</h2>
     <ul>
         @foreach ($alltickers as $ticker)

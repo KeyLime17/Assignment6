@@ -12,8 +12,10 @@ Route::get('/newsletter', function () {
     echo "mail sent";
 });
 
-Route::get('/signup', [NewsletterController::class, 'showSignupForm'])->name('signup.form');
-Route::post('/signup', [NewsletterController::class, 'processSignup'])->name('signup.process');
+Route::get('/', [NewsletterController::class, 'showSignupForm'])->name('signup.form');
+Route::post('/', [NewsletterController::class, 'processSignup'])->name('signup.process');
+Route::get('/unsubscribe', [NewsletterController::class, 'unsubscribe'])->name('unsubscribe');
+
 
 Route::get('/reload-captcha', function () {
     return response()->json(['captcha' => captcha_src()]);

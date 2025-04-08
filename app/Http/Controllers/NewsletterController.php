@@ -35,4 +35,21 @@ class NewsletterController extends Controller
 
         return view('success');
     }
+    
+    public function unsubscribe(Request $request)
+    {
+        $email = $request->query('email');
+        $subscriber = Subscriber::where('email', $email)->first();
+    
+        if (!$email) {
+            return "Error: no email specified.";
+        }
+        if (!$subscriber) {
+            return "Subscriber not found.";
+        }
+
+          $subscriber->delete();
+          return view('unsubscribed');
+    }
 }
+
