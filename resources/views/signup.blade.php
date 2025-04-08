@@ -3,12 +3,10 @@
 <head>
     <title>Newsletter Signup</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Add your CSS styling here if needed -->
 </head>
 <body>
     <h1>Sign Up for the Cryptocurrency Newsletter</h1>
 
-    <!-- Display Validation Errors -->
     @if ($errors->any())
         <ul style="color: red;">
             @foreach ($errors->all() as $error)
@@ -20,13 +18,11 @@
     <form action="{{ route('signup.process') }}" method="POST">
         @csrf
 
-        <!-- Name -->
         <div>
             <label for="name">Name:</label>
             <input type="text" name="name" id="name" value="{{ old('name') }}">
         </div>
 
-        <!-- Email -->
         <div>
             <label for="email">E-mail Address:</label>
             <input type="text" name="email" id="email" value="{{ old('email') }}">
@@ -71,7 +67,6 @@
             <input type="text" name="captcha" id="captcha" placeholder="Enter captcha">
         </div>
 
-        <!-- Submit Button -->
         <div>
             <button type="submit">Sign Up</button>
         </div>

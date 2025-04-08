@@ -33,6 +33,6 @@ class NewsletterController extends Controller
 
         Subscriber::create($data);
 
-        return view('signup-success');
+        return view('success');
     }
 }

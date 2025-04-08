@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Mail\Newsletter;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\NewsletterController;
 
 Route::get('/newsletter', function () {
 

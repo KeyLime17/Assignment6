@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <h1>Hello, {{ $subscriber->name }}</h1>
+    <h1>Crypto Newsletter</h1>
     <p>Here is your cryptocurrency newsletter with the latest crypto prices:</p>
 
     <table>
